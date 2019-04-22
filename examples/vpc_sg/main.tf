@@ -13,8 +13,8 @@ module "vpc" {
 	map_public_ip_on_launch = "true"
 }
 
-resource "aws_security_group" "allow_22_8080" {
-  name        = "allow_22_8080"
+resource "aws_security_group" "allow_22_8080_3021" {
+  name        = "allow_22_8080_3021"
   description = "Allow inbound TCP traffic on ports 22,8080"
   vpc_id      = "${module.vpc.vpc_id}"
 
@@ -32,6 +32,13 @@ resource "aws_security_group" "allow_22_8080" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   
+  ingress {
+  	from_port   = "3021"
+    to_port     = "3021"
+    protocol    = "TCP"
+    cidr_blocks = ["${var.subnet_cidr}"]
+  }
+  
   egress {
     from_port       = "0"
     to_port         = "0"
@@ -40,7 +47,7 @@ resource "aws_security_group" "allow_22_8080" {
   }
   
   tags = {
-  	Name = "allow_22_8080"
+  	Name = "allow_22_8080_3021"
   }
 }
 
@@ -55,7 +62,7 @@ module "volt" {
 	subnet_id 			= "${element(module.vpc.public_subnets, 0)}"
 	subnet_cidr_block		= "${var.subnet_cidr}"
 	ip_start_offset			= "${var.ip_start_offset}"
-	security_group_id 		= "${aws_security_group.allow_22_8080.id}"
+	security_group_id 		= "${aws_security_group.allow_22_8080_3021.id}"
 	host_string_self			= "${join(",", data.template_file.ips_1.*.rendered)}"
 	ami					= "${var.ami}"
 	node_count			= "${var.node_count}"
