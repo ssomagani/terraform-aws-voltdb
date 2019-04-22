@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <deployment>
-    <cluster kfactor="0" sitesperhost="8"/>
+    <cluster kfactor="1" sitesperhost="8"/>
     <partition-detection/>
     <heartbeat/>
     <ssl/>
