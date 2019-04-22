@@ -5,17 +5,17 @@ provider "aws" {
 }
 
 module "vpc" {
-	source				= "terraform-aws-modules/vpc/aws"
+	source					= "terraform-aws-modules/vpc/aws"
 	name = "vpc"
-	cidr				= "${var.vpc_cidr}"
+	cidr					= "${var.vpc_cidr}"
 	azs 					= ["us-east-1b"]
 	public_subnets			= ["${var.subnet_cidr}"]
 	map_public_ip_on_launch = "true"
 }
 
-resource "aws_security_group" "allow_all" {
-  name        = "allow_all"
-  description = "Allow all inbound traffic"
+resource "aws_security_group" "allow_22_8080" {
+  name        = "allow_22_8080"
+  description = "Allow inbound TCP traffic on ports 22,8080"
   vpc_id      = "${module.vpc.vpc_id}"
 
   ingress {
@@ -40,7 +40,7 @@ resource "aws_security_group" "allow_all" {
   }
   
   tags = {
-  	Name = "allow_all"
+  	Name = "allow_22_8080"
   }
 }
 
@@ -49,18 +49,14 @@ data "template_file" "ips_1" {
 	template			= "$${cidrhost("${var.subnet_cidr}", ${count.index} + ${var.ip_start_offset})}"
 }
 
-locals {
-	  host_string_1 	= "${join(",", data.template_file.ips_1.*.rendered)}"
-}
-
 module "volt" {
-	source 				= "../../../terraform-aws-voltdb"
+	source 				= "ssomagani/voltdb/aws"
 	zone			 	= "us-east-1b"
 	subnet_id 			= "${element(module.vpc.public_subnets, 0)}"
 	subnet_cidr_block		= "${var.subnet_cidr}"
 	ip_start_offset			= "${var.ip_start_offset}"
-	security_group_id 		= "${aws_security_group.allow_all.id}"
-	host_string_self			= "${local.host_string_1}"
+	security_group_id 		= "${aws_security_group.allow_22_8080.id}"
+	host_string_self			= "${join(",", data.template_file.ips_1.*.rendered)}"
 	ami					= "${var.ami}"
 	node_count			= "${var.node_count}"
 	instance_type		= "${var.instance_type}"
