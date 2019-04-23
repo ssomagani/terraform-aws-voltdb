@@ -8,4 +8,5 @@ Cluster of multiple nodes can be provisioned by simply setting the node_count in
 The deployment configuration can be specified by your deployment.xml. Refer to the documentation here - https://docs.voltdb.com/UsingVoltDB/AppxConfigFile.php
 
 ## Examples
-The vpc_sg example demonstrates building a VoltDB cluster with a custom VPC and Security Group.
+vpc_sg demonstrates building a VoltDB cluster with a custom VPC and Security Group.
+vpc_sg_kafkaImport goes one step further and demonstrates import of events from Kafka into VoltDB
