@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<deployment>
+    <cluster kfactor="1" sitesperhost="8"/>
+    <partition-detection/>
+    <heartbeat/>
+    <ssl/>
+    <httpd enabled="true">
+        <jsonapi enabled="true"/>
+    </httpd>
+    <snapshot enabled="false"/>
+    <commandlog enabled="false">
+        <frequency/>
+    </commandlog>
+    <systemsettings>
+        <temptables/>
+        <snapshot/>
+        <elastic/>
+        <query/>
+        <procedure/>
+        <resourcemonitor>
+            <memorylimit/>
+        </resourcemonitor>
+    </systemsettings>
+    <security/>
+    <import>
+        <configuration type="kafka" enabled="true" format="csv" version="10">
+            <property name="topics">events</property>
+            <property name="procedure">newEvent</property>
+            <property name="brokers">ip-10-10-11-20:9092</property>
+        </configuration>
+        <configuration type="kafka" enabled="true" format="csv" version="10">
+            <property name="topics">visits</property>
+            <property name="procedure">newVisit</property>
+            <property name="brokers">ip-10-10-11-20:9092</property>
+        </configuration>
+    </import>
+</deployment>
