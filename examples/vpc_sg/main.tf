@@ -15,7 +15,7 @@ module "vpc" {
 
 resource "aws_security_group" "allow_22_8080_3021" {
   name        = "allow_22_8080_3021"
-  description = "Allow inbound TCP traffic on ports 22,8080"
+  description = "Allow all inbound TCP traffic on ports 22, 8080 and subnet-only traffic on 3021"
   vpc_id      = "${module.vpc.vpc_id}"
 
   ingress {

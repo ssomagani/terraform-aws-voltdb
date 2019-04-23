@@ -4,7 +4,7 @@ variable name {
 }
 
 variable license_path { 
-	description = "Path to the license file to run VoltDB Enterprise"
+	description = "Path to the license file to run VoltDB Enterprise. Ignore this if your image has a valid license baked in already."
 }
 
 variable key_name {
