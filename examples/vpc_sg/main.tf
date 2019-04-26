@@ -15,7 +15,7 @@ module "vpc" {
 
 resource "aws_security_group" "allow_22_8080_3021" {
   name        = "allow_22_8080_3021"
-  description = "Allow all inbound TCP traffic on ports 22, 8080 and subnet-only traffic on 3021"
+  description = "Allow all inbound TCP traffic on ports 22, 8080 and subnet-only traffic on 3021 and 21212"
   vpc_id      = "${module.vpc.vpc_id}"
 
   ingress {
@@ -35,6 +35,13 @@ resource "aws_security_group" "allow_22_8080_3021" {
   ingress {
   	from_port   = "3021"
     to_port     = "3021"
+    protocol    = "TCP"
+    cidr_blocks = ["${var.subnet_cidr}"]
+  }
+    
+  ingress {
+  	from_port   = "21212"
+    to_port     = "21212"
     protocol    = "TCP"
     cidr_blocks = ["${var.subnet_cidr}"]
   }
