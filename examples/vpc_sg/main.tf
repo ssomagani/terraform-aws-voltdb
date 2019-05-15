@@ -18,20 +18,58 @@ resource "aws_security_group" "allow_22_8080_3021" {
   description = "Allow all inbound TCP traffic on ports 22, 8080 and subnet-only traffic on 3021 and 21212"
   vpc_id      = "${module.vpc.vpc_id}"
 
+  # Public ports
+  # SSH
   ingress {
     from_port   = "22"
     to_port     = "22"
     protocol    = "TCP"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  # XDCR
+  ingress {
+    from_port   = "5555"
+    to_port     = "5555"
+    protocol    = "TCP"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+    
+  # TLS
+  ingress {
+    from_port   = "8443"
+    to_port     = "8443"
+    protocol    = "TCP"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   
+  # HTTP
   ingress {
     from_port   = "8080"
     to_port     = "8080"
     protocol    = "TCP"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  # Admin
+  ingress {
+  	from_port   = "21211"
+    to_port     = "21211"
+    protocol    = "TCP"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   
+  # Client
+  ingress {
+  	from_port   = "21212"
+    to_port     = "21212"
+    protocol    = "TCP"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  
+  # Private ports
+
+  # Internal Server  
   ingress {
   	from_port   = "3021"
     to_port     = "3021"
@@ -39,13 +77,6 @@ resource "aws_security_group" "allow_22_8080_3021" {
     cidr_blocks = ["${var.subnet_cidr}"]
   }
     
-  ingress {
-  	from_port   = "21212"
-    to_port     = "21212"
-    protocol    = "TCP"
-    cidr_blocks = ["${var.subnet_cidr}"]
-  }
-  
   egress {
     from_port       = "0"
     to_port         = "0"
