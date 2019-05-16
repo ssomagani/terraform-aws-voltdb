@@ -43,8 +43,8 @@ variable subnet_id {
 	description = "The subnet for the EC2 instances"
 }
 
-variable security_group_id {
-	description = "Security Group for the EC2 instances"
+variable security_group_ids {
+	description = "Security Groups for the EC2 instances"
 }
 
 variable ip_start_offset {
