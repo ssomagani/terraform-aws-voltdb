@@ -6,11 +6,12 @@ resource "aws_instance" volt {
   key_name			= "${var.key_name}"
   private_ip 			= "${cidrhost(var.subnet_cidr_block, count.index + var.ip_start_offset)}"
   subnet_id			= "${var.subnet_id}"
-  vpc_security_group_ids 	= ["${var.security_group_id}"]
+  #vpc_security_group_ids 	= "${var.security_group_ids}"
+  vpc_security_group_ids = ["${split(";", var.security_group_ids)}"]
 
   provisioner "file" {
 	source			= "${var.deployment_file}",
-	destination 		= "/home/ubuntu/${var.deployment_file}"
+	destination 		= "/home/ubuntu/deployment.xml"
 	connection {
       type     			= "ssh"
       user			= "${var.ssh_user}"
