@@ -13,4 +13,5 @@ The vpc_sg example demonstrates building a VoltDB cluster with a custom VPC and 
 
 ## How to run
 `cd` to the example directory that you'd like to run  
-Then execute `terraform apply -var-file=values.tfvars -var-file=path/to/aws_keys.tfvars`
+Then execute `terraform apply -var-file=values.tfvars -var-file=path/to/aws_keys.tfvars`  
+You will need to put in your own values in values.tfvars and provide a file that contains the access keys (https://learn.hashicorp.com/terraform/getting-started/variables.html#from-a-file)  
